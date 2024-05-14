@@ -1,21 +1,21 @@
 ---
-- name: ESXi Reboot #vmcloud.pl
+- name: ESXi Reboot 
   hosts: localhost
   gather_facts: no
 
   vars:
-    vcenter_server: "vCenter_IP_or_hostname"
-    vcenter_username: "administrator@vsphere.local"
-    vcenter_password: "pw"
-    esxi_hostname: "ESXi_hostname"
+    vcenter_server: 172.20.1.220
+    vcenter_username: administrator@vsphere.local
+    vcenter_password: Cbi@202104*
+    esxi_hostname: Hosthx-node2.lab.local
 
   tasks:
     - name: ESXi reboot 
       vmware_host_powerstate: 
-        hostname: "{{ vcenter_server }}"
-        username: "{{ vcenter_username }}"
-        password: "{{ vcenter_password }}"
-        esxi_hostname: "{{ esxi_hostname }}"
+        hostname: vcsa.lab.local 
+        username: administrator@vsphere.local
+        password: Cbi@202104*
+        esxi_hostname: Hosthx-node2.lab.local
         validate_certs: no
         timeout: 3600   #Timeout for the operation (sec)
         state: reboot-host
@@ -24,7 +24,7 @@
   
     - name: ESXi wait for the reboot to complete
       wait_for:
-        host: "{{ esxi_hostname }}"
+        host: Hosthx-node2.lab.local
         port: 443
         delay: 360        #Perform first check after delay (sec)
         state: started

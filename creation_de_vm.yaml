@@ -1,0 +1,31 @@
+---
+- name: creation de vm
+  hosts: 172.20.1.220
+  vars:
+    vcenter_server: "172.20.1.220"
+    vcenter_username: "administrator@vsphere.local"
+    vcenter_password: "Cbi@202104*"
+    tasks:
+    - name: create VM
+      community.vmware.vmware_guest:
+        template: "{{ vm_template }}"
+        name: "{{ mobiotest }}"
+        state: "{{ poweredoff }}"
+        guest_id: "{{ ubuntu64Guest }}"
+        disk:
+          - size_gb: "{{ 20 }}"
+            type: "{{ thin }}"
+            datastore: "{{ HX-Node1-DS6 }}"
+        hardware:
+          memory_mb: "{{ 4 }}"
+          num_cpus: "{{ 2 }}"
+          scsi: "{{ paravirtual }}"
+        network:
+          - name: "{{ VM Network }}"
+            start_connected: yes
+            device_type: "{{ vmxnet3 }}"
+            type: static
+            ip: "{{ 192.20.1.22 }}"
+            netmask: "{{ 255.255.255.1 }}"
+            gateway: "{{ 192.20.1.254 }}"
+            dns_servers: "{{ 8.8.8.8 }}"
